@@ -77,12 +77,31 @@ Vercel and Upstash; GitHub Pages/Netlify static hosting alone will not run it.
 From this directory, run:
   npm test
 
-7) CUSTOMIZE
+7) MUSIC AND SOUND
+------------------
+A temporary romantic instrumental is placed at:
+  assets/romantic-music.mp3
+
+Replace that file with your favourite song (keep the same name) or point
+AUDIO_CONFIG.music.src in script.js at another file. That single constant near
+the top of the audio section in script.js is the only place to change; no other
+JavaScript has to be touched. It also holds the volume (0.22), the fade timings
+and the ducking level.
+
+Short UI sounds (chimes, sparkles, clicks, the YES/LATER/NO answers) are
+generated with the Web Audio API, so no extra audio files are needed. The track
+loops continuously, fades in once the visitor unlocks the site, and never
+restarts during normal interaction. If a browser blocks audible autoplay, the
+playback promise is caught silently and the music simply begins with the first
+tap or key press. The button in the top bar always silences everything.
+
+8) CUSTOMIZE
 -------------
 - Name is currently Shraddha and Anmol.
 - All main proposal lines are in Hinglish.
 - The final screen offers Haan / Time / No so the recipient can answer freely.
-- The ambient sound starts only after the user taps the music button.
+- The music button toggles the music and every sound effect at once, and the
+  choice is remembered for the current browser session.
 
 TIP
 ---
