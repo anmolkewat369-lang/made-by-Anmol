@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#120710" />
+  <meta name="description" content="A heartfelt proposal from Anmol to Shraddha." />
+  <title>Shraddha, Ek Baat Kehni Thi… ❤️</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="password-screen" id="passwordScreen" role="dialog" aria-modal="true" aria-labelledby="passwordTitle">
+    <div class="password-card">
+      <p class="password-kicker">RESTRICTED ACCESS</p>
+      <h1 id="passwordTitle">Only IAS can open this</h1>
+      <p class="password-subtitle">This website opens only with the IAS birth date in dd mm yyyy format.</p>
+
+      <div class="password-form" aria-label="Enter IAS birth date">
+        <div class="date-inputs" id="dateInputs">
+          <input class="date-box" type="text" inputmode="numeric" maxlength="1" aria-label="Day 1" placeholder="D" />
+          <input class="date-box" type="text" inputmode="numeric" maxlength="1" aria-label="Day 2" placeholder="D" />
+          <input class="date-box" type="text" inputmode="numeric" maxlength="1" aria-label="Month 1" placeholder="M" />
+          <input class="date-box" type="text" inputmode="numeric" maxlength="1" aria-label="Month 2" placeholder="M" />
+          <input class="date-box" type="text" inputmode="numeric" maxlength="1" aria-label="Year 1" placeholder="Y" />
+          <input class="date-box" type="text" inputmode="numeric" maxlength="1" aria-label="Year 2" placeholder="Y" />
+          <input class="date-box" type="text" inputmode="numeric" maxlength="1" aria-label="Year 3" placeholder="Y" />
+          <input class="date-box" type="text" inputmode="numeric" maxlength="1" aria-label="Year 4" placeholder="Y" />
+        </div>
+        <button id="unlockButton" type="button">Unlock</button>
+      </div>
+      <p id="passwordError" class="password-error" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <div class="noise"></div>
+  <div class="stars" aria-hidden="true"></div>
+  <div class="floating-hearts" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="monogram">A <span>♥</span> S</div>
+    <button class="music-btn" id="musicBtn" aria-label="Toggle ambient sound">♪ <span>soft ambience</span></button>
+  </header>
+
+  <main>
+    <section class="hero section" id="top">
+      <div class="hero-glow"></div>
+      <div class="hero-content reveal">
+        <p class="eyebrow">FOR THE GIRL WHO MADE MY WORLD SOFTER</p>
+        <h1>Shraddha,<br><span>ek baat kehni thi…</span></h1>
+        <p class="hero-lead">“Main tumhe impress karne nahi aaya…<br>main bas dil ki woh baat kehne aaya hoon jo bahut dino se tumhari taraf dekh rahi hai.”</p>
+        <button class="scroll-cta" data-scroll="#story">Read my heart <span>↓</span></button>
+      </div>
+      <div class="hero-ring ring-1"></div>
+      <div class="hero-ring ring-2"></div>
+      <div class="hero-orbit"><div class="orbit-heart">♥</div></div>
+    </section>
+
+    <section class="section story" id="story">
+      <div class="section-heading reveal">
+        <span class="section-number">01</span>
+        <div>
+          <p class="eyebrow">THE FEELING</p>
+          <h2>Pata nahi kab…<br><em>par tum “special” se “necessary” ho gayi.</em></h2>
+        </div>
+      </div>
+      <div class="story-grid">
+        <div class="story-card large reveal">
+          <p class="quote-mark">“</p>
+          <p class="big-shayari">Tum saamne hoti ho toh waqt thoda ruk sa jaata hai,<br>aur tum door hoti ho toh dil tum tak chal sa jaata hai.</p>
+          <p class="soft-copy">Tumhari smile ka koi logic nahi, phir bhi mere mood ka perfect solution hai. Tumhari presence ka koi announcement nahi hota, phir bhi mera dil tumhe instantly notice kar leta hai.</p>
+        </div>
+        <div class="story-card accent reveal">
+          <span class="mini-label">ONE HONEST CONFESSION</span>
+          <p>“Mujhe tumhari aadat nahi lagi…<br><strong>mujhe tumse mohabbat hone lagi.</strong>”</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section gallery-section" id="memories">
+      <div class="section-heading reveal">
+        <span class="section-number">02</span>
+        <div>
+          <p class="eyebrow">LITTLE MOMENTS</p>
+          <h2>15 pictures.<br><em>One very big feeling.</em></h2>
+        </div>
+      </div>
+      <p class="section-intro reveal">Har photo mein tum ho. Aur har photo ke beech mein, meri ek chhoti si smile chhupi hai.</p>
+      <div class="gallery" id="gallery">
+        <!-- Replace the 15 files inside /assets/ with your photos. Names: photo-01.jpg ... photo-15.jpg -->
+        <button class="photo-card p1 reveal" data-index="0"><img src="assets/photo-01.jpg" alt="Shraddha memory 1"><span>01</span></button>
+        <button class="photo-card p2 reveal" data-index="1"><img src="assets/photo-02.jpg" alt="Shraddha memory 2"><span>02</span></button>
+        <button class="photo-card p3 reveal" data-index="2"><img src="assets/photo-03.jpg" alt="Shraddha memory 3"><span>03</span></button>
+        <button class="photo-card p4 reveal" data-index="3"><img src="assets/photo-04.jpg" alt="Shraddha memory 4"><span>04</span></button>
+        <button class="photo-card p5 reveal" data-index="4"><img src="assets/photo-05.jpg" alt="Shraddha memory 5"><span>05</span></button>
+        <button class="photo-card p6 reveal" data-index="5"><img src="assets/photo-06.jpg" alt="Shraddha memory 6"><span>06</span></button>
+        <button class="photo-card p7 reveal" data-index="6"><img src="assets/photo-07.jpg" alt="Shraddha memory 7"><span>07</span></button>
+        <button class="photo-card p8 reveal" data-index="7"><img src="assets/photo-08.jpg" alt="Shraddha memory 8"><span>08</span></button>
+        <button class="photo-card p9 reveal" data-index="8"><img src="assets/photo-09.jpg" alt="Shraddha memory 9"><span>09</span></button>
+        <button class="photo-card p10 reveal" data-index="9"><img src="assets/photo-10.jpg" alt="Shraddha memory 10"><span>10</span></button>
+        <button class="photo-card p11 reveal" data-index="10"><img src="assets/photo-11.jpg" alt="Shraddha memory 11"><span>11</span></button>
+        <button class="photo-card p12 reveal" data-index="11"><img src="assets/photo-12.jpg" alt="Shraddha memory 12"><span>12</span></button>
+        <button class="photo-card p13 reveal" data-index="12"><img src="assets/photo-13.jpg" alt="Shraddha memory 13"><span>13</span></button>
+        <button class="photo-card p14 reveal" data-index="13"><img src="assets/photo-14.jpg" alt="Shraddha memory 14"><span>14</span></button>
+        <button class="photo-card p15 reveal" data-index="14"><img src="assets/photo-15.jpg" alt="Shraddha memory 15"><span>15</span></button>
+      </div>
+    </section>
+
+    <section class="section shayari-section">
+      <div class="section-heading reveal">
+        <span class="section-number">03</span>
+        <div>
+          <p class="eyebrow">WHAT I COULDN’T SAY OUT LOUD</p>
+          <h2>Kuch alfaaz…<br><em>jo sirf tumhare naam hain.</em></h2>
+        </div>
+      </div>
+      <div class="shayari-stack">
+        <article class="shayari-card reveal"><span>01</span><p>“Mohabbat ka matlab har baar paas rehna nahi hota,<br>kabhi-kabhi kisi ke naam se hi dil muskura deta hai.”</p></article>
+        <article class="shayari-card reveal"><span>02</span><p>“Tumhe dekha toh khud se thoda zyada pyaar ho gaya,<br>shayad isliye… kyunki meri duniya mein tumhara zikr ho gaya.”</p></article>
+        <article class="shayari-card reveal"><span>03</span><p>“Na chaand maanga, na sitare maange,<br>bas tumhara saath maanga… aur khuda se dobaara kuch nahi maanga.”</p></article>
+        <article class="shayari-card reveal"><span>04</span><p>“Agar meri zindagi ek kitaab hai,<br>toh tum woh chapter ho jise main kabhi khatam nahi karna chahta.”</p></article>
+      </div>
+    </section>
+
+    <section class="section reasons" id="why-you">
+      <div class="section-heading reveal">
+        <span class="section-number">04</span>
+        <div>
+          <p class="eyebrow">WHY YOU?</p>
+          <h2>Because…<br><em>tum tum ho.</em></h2>
+        </div>
+      </div>
+      <div class="reason-grid">
+        <div class="reason reveal"><span>01</span><h3>Tumhari smile</h3><p>Jab tum haste ho, sach mein lagta hai day thoda better ho gaya.</p></div>
+        <div class="reason reveal"><span>02</span><h3>Tumhari simplicity</h3><p>Jo cheez tumhe normal lagti hai, wahi mujhe tum mein extraordinary lagti hai.</p></div>
+        <div class="reason reveal"><span>03</span><h3>Tumhara hona</h3><p>Kuch log life mein enter nahi karte… woh quietly life ka meaning change kar dete hain.</p></div>
+        <div class="reason reveal"><span>04</span><h3>Mera sukoon</h3><p>Tumse baat karna kisi perfect place par pahunchne jaisa lagta hai.</p></div>
+      </div>
+    </section>
+
+    <section class="section timeline">
+      <div class="section-heading reveal">
+        <span class="section-number">05</span>
+        <div>
+          <p class="eyebrow">OUR LITTLE TIMELINE</p>
+          <h2>Somewhere between<br><em>then &amp; now.</em></h2>
+        </div>
+      </div>
+      <div class="timeline-list">
+        <div class="timeline-item reveal"><div class="dot"></div><div><small>THEN</small><h3>Ek normal si mulaqat.</h3><p>Tab mujhe bilkul idea nahi tha ki tum mere liye itni important ban jaogi.</p></div></div>
+        <div class="timeline-item reveal"><div class="dot"></div><div><small>THEN</small><h3>Chhoti-chhoti baatein.</h3><p>Conversations chhoti thi, par unke baad wali smile bahut badi.</p></div></div>
+        <div class="timeline-item reveal"><div class="dot"></div><div><small>NOW</small><h3>Tum meri favourite thought ho.</h3><p>Busy day ho ya quiet night — somehow mind tum tak aa hi jaata hai.</p></div></div>
+        <div class="timeline-item reveal"><div class="dot"></div><div><small>TODAY</small><h3>Main sach bol raha hoon.</h3><p>Ab dil ko aur hide nahi karna. Jo feel karta hoon, aaj keh raha hoon.</p></div></div>
+      </div>
+    </section>
+
+    <section class="section letter-section" id="letter">
+      <div class="section-heading reveal">
+        <span class="section-number">06</span>
+        <div>
+          <p class="eyebrow">THE LETTER I COULDN’T TYPE</p>
+          <h2>Kuch baatein screen par nahi…<br><em>haath se likhi jaati hain.</em></h2>
+        </div>
+      </div>
+      <p class="section-intro reveal">Ye wahi letter hai jo Anmol ne Shraddha ke liye likha — exactly as it was written. No rewrite. No filter. Bas dil ki baat.</p>
+      <div class="handwritten-letter reveal">
+        <button class="letter-page" data-letter="0" aria-label="Open first handwritten letter page">
+          <img src="assets/letter-page-01.jpg" alt="Anmol's handwritten letter to Shraddha — page 1">
+          <span>PAGE 01 · “Hi meri cute Shraddha!”</span>
+        </button>
+        <button class="letter-page" data-letter="1" aria-label="Open second handwritten letter page">
+          <img src="assets/letter-page-02.jpg" alt="Anmol's handwritten letter to Shraddha — page 2">
+          <span>PAGE 02 · “I Love you Shraddha…”</span>
+        </button>
+      </div>
+      <div class="letter-caption reveal">
+        <span>THE THREE MAGICAL WORDS</span>
+        <p>“I Love you Shraddha, will you be mine!”</p>
+        <small>Tap either page to read it closely.</small>
+      </div>
+    </section>
+
+    <section class="section promise-section">
+      <div class="promise-card reveal">
+        <p class="eyebrow">NOT A PERFECT PROMISE</p>
+        <h2>Bas ek real sa promise.</h2>
+        <p class="promise">“Main tumhe perfect life ka promise nahi karunga.<br>Par tumhari respect, tumhari feelings, tumhari smile aur tumhari choice ko kabhi lightly nahi lunga.”</p>
+        <div class="signature-line"><span>♥</span><div></div><span>♥</span></div>
+      </div>
+    </section>
+
+    <section class="section final-section" id="proposal">
+      <div class="final-content reveal">
+        <p class="eyebrow">THE QUESTION</p>
+        <h2>Shraddha,<br><span>kya tum mere saath<br>ek khoobsurat “hum” likhna chahti ho?</span></h2>
+        <p class="final-shayari">“Mujhe zindagi bhar ke waade aaj nahi chahiye,<br>bas aaj ek honest sa jawab chahiye…<br>kya hum dono milkar kal ko ‘hamara’ keh sakte hain?”</p>
+
+        <div class="answer-buttons" id="answerButtons">
+          <button class="answer yes" data-answer="yes">Haan, Anmol ❤️</button>
+          <button class="answer later" data-answer="later">Mujhe thoda waqt chahiye 🌷</button>
+          <button class="answer no" id="noButton" type="button" aria-label="No button">No 😈</button>
+        </div>
+        <p class="choice-note">Haan ka button bilkul seedha hai… aur No button thoda shararti hai 😈💗<br>Bas ek fun little game — final decision hamesha tumhara hai.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Made with too much love by <strong>Anmol</strong>, for <strong>Shraddha</strong>.</p>
+    <button class="back-top" data-scroll="#top">↑</button>
+  </footer>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox-close" id="closeLightbox">×</button>
+    <img id="lightboxImage" src="" alt="Expanded memory" />
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
+
+  <div class="response-overlay" id="responseOverlay" aria-hidden="true">
+    <div class="response-card" id="responseCard"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
