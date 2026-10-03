@@ -158,9 +158,8 @@ function sendResponseNotification(answer){
     body:JSON.stringify({answer})
   }).catch(() => {});
 }
-document.querySelectorAll('.answer').forEach(btn => btn.addEventListener('click', () => {
+document.querySelectorAll('.answer.yes, .answer.later').forEach(btn => btn.addEventListener('click', () => {
   const answer = btn.dataset.answer;
-  if(answer !== 'yes' && answer !== 'later') return;
   if(answer === 'yes') playSuccess(); else playGentleTone();
   sendResponseNotification(answer);
   openResponse(answer);
@@ -170,37 +169,64 @@ document.querySelectorAll('.answer').forEach(btn => btn.addEventListener('click'
 // to a new safe position instead of opening the no-response. The YES button
 // remains completely normal and easy to press.
 const noButton = document.getElementById('noButton');
-const answerBox = document.getElementById('answerButtons');
-const noTeases = ['No 😈','Too slow 😜','Almost! 😂','Try again 🙈','Nahi pakad paogi 😌','Oops! 💨','Dil ne mana kar diya 😭','Hehe… no? 😏'];
+const noTeases = ['No 😈','Too slow 😜','Almost 😂','Try again 🙈','Catch me 😏','Nope! 💨'];
 let noMoves = 0;
 function moveNoButton(){
-  if(!noButton || !answerBox) return;
+  if(!noButton) return;
 
-  const pad = 8;
-  const viewportWidth = Math.max(window.innerWidth, 320);
-  const viewportHeight = Math.max(window.innerHeight, 480);
-  const button = noButton.getBoundingClientRect();
-  const box = answerBox.getBoundingClientRect();
-
-  const maxX = Math.max(pad, Math.min(viewportWidth - button.width - pad, box.right - button.width));
-  const minX = Math.min(Math.max(pad, box.left), maxX);
-  const maxY = Math.max(pad, Math.min(viewportHeight - button.height - pad, box.bottom - button.height));
-  const minY = Math.min(Math.max(pad, box.top), maxY);
-  const x = minX + Math.random() * Math.max(0, maxX - minX);
-  const y = minY + Math.random() * Math.max(0, maxY - minY);
-
-  noButton.style.position = 'fixed';
-  noButton.style.left = `${Math.min(Math.max(x, pad), viewportWidth - button.width - pad)}px`;
-  noButton.style.top = `${Math.min(Math.max(y, pad), viewportHeight - button.height - pad)}px`;
-  noButton.style.zIndex = '80';
-  noButton.style.transform = `rotate(${(Math.random()*10-5).toFixed(1)}deg) scale(${(0.94+Math.random()*0.12).toFixed(2)})`;
+  noButton.classList.add('is-escaped');
   noButton.textContent = noTeases[noMoves % noTeases.length];
   noMoves++;
+
+  const pad = 8;
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+  const width = noButton.offsetWidth;
+  const height = noButton.offsetHeight;
+  const angle = Math.random() * 10 - 5;
+  const scale = 0.94 + Math.random() * 0.12;
+  const radians = angle * Math.PI / 180;
+  const visualWidth = scale * (Math.abs(Math.cos(radians)) * width + Math.abs(Math.sin(radians)) * height);
+  const visualHeight = scale * (Math.abs(Math.sin(radians)) * width + Math.abs(Math.cos(radians)) * height);
+  const insetX = (visualWidth - width) / 2;
+  const insetY = (visualHeight - height) / 2;
+  const minX = pad + insetX;
+  const minY = pad + insetY;
+  const maxX = Math.max(minX, viewportWidth - width - pad - insetX);
+  const maxY = Math.max(minY, viewportHeight - height - pad - insetY);
+  const x = minX + Math.random() * (maxX - minX);
+  const y = minY + Math.random() * (maxY - minY);
+
+  noButton.style.position = 'fixed';
+  noButton.style.left = `${x}px`;
+  noButton.style.top = `${y}px`;
+  noButton.style.zIndex = '80';
+  noButton.style.transform = `rotate(${angle.toFixed(1)}deg) scale(${scale.toFixed(2)})`;
 }
 if(noButton){
-  noButton.addEventListener('mouseenter', () => { moveNoButton(); playNoTease(); });
-  noButton.addEventListener('pointerdown', e => { e.preventDefault(); moveNoButton(); playNoTease(); });
-  noButton.addEventListener('focus', moveNoButton);
+  noButton.addEventListener('pointerenter', event => {
+    if(event.pointerType === 'mouse'){
+      moveNoButton();
+      playNoTease();
+    }
+  });
+  noButton.addEventListener('pointerdown', event => {
+    if(event.pointerType === 'touch'){
+      event.preventDefault();
+      event.stopPropagation();
+      moveNoButton();
+      playNoTease();
+    } else if(event.pointerType === 'mouse'){
+      event.preventDefault();
+      event.stopPropagation();
+      moveNoButton();
+      playNoTease();
+    }
+  });
+  noButton.addEventListener('focus', () => {
+    moveNoButton();
+    playNoTease();
+  });
   noButton.addEventListener('click', e => { e.preventDefault(); moveNoButton(); playNoTease(); });
   window.addEventListener('resize', () => { if(noMoves) moveNoButton(); });
 }
