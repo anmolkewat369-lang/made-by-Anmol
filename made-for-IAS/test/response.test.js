@@ -4,6 +4,8 @@ import handler from '../api/response.js';
 
 const originalEnv = { ...process.env };
 const originalFetch = globalThis.fetch;
+const originalConsoleInfo = console.info;
+const originalConsoleWarn = console.warn;
 
 function createResponse() {
   return {
@@ -44,6 +46,8 @@ function configureStorage() {
 afterEach(() => {
   process.env = { ...originalEnv };
   globalThis.fetch = originalFetch;
+  console.info = originalConsoleInfo;
+  console.warn = originalConsoleWarn;
 });
 
 describe('POST /api/response', () => {
@@ -74,6 +78,8 @@ describe('POST /api/response', () => {
     });
 
     const calls = [];
+    const logs = [];
+    console.info = (message, details) => logs.push({ message, details });
     globalThis.fetch = async (url, options) => {
       calls.push({ url, options });
       if (url === 'https://redis.example') {
@@ -101,9 +107,44 @@ describe('POST /api/response', () => {
     assert.equal(emailBody.subject, '💌 Shraddha responded to your proposal — YES ❤️');
     assert.match(emailBody.text, /Response: YES/);
     assert.match(emailBody.text, new RegExp(response.body.id));
+    assert.deepEqual(logs, [{
+      message: '[proposal-response] Email accepted by Resend',
+      details: { status: 200, emailId: 'provider-message' }
+    }]);
     assert.match(calls.find(call => call.url.includes('twilio.com')).options.body.toString(), /YES/);
     const whatsapp = calls.find(call => call.url.includes('graph.facebook.com'));
     assert.equal(JSON.parse(whatsapp.options.body).template.name, 'proposal_yes');
+  });
+
+  it('logs a bounded Resend error without request data when email delivery is rejected', async () => {
+    configureStorage();
+    Object.assign(process.env, {
+      RESEND_API_KEY: 'resend-test',
+      RESEND_FROM_EMAIL: 'Proposal <noreply@example.com>',
+      NOTIFICATION_EMAIL: 'owner@example.com'
+    });
+
+    const warnings = [];
+    console.warn = (message, details) => warnings.push({ message, details });
+    globalThis.fetch = async (url, options) => {
+      if (url === 'https://redis.example') {
+        const command = JSON.parse(options.body);
+        return Response.json({ result: command[0] === 'SET' ? 'OK' : 1 });
+      }
+      if (url === 'https://api.resend.com/emails') {
+        return Response.json({ message: 'Sender domain is not verified' }, { status: 403 });
+      }
+      throw new Error(`Unexpected provider call: ${url}`);
+    };
+
+    const response = createResponse();
+    await handler(request('yes'), response);
+
+    assert.equal(response.statusCode, 200);
+    assert.deepEqual(warnings.find(({ message }) => message === '[proposal-response] Email delivery failed'), {
+      message: '[proposal-response] Email delivery failed',
+      details: { status: 403, error: 'Sender domain is not verified' }
+    });
   });
 
   it('records LATER, rejects repeated requests during the cooldown, and skips absent optional providers', async () => {

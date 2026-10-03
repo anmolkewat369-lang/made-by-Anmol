@@ -13,6 +13,27 @@ function logWarning(message, details = {}) {
   console.warn(`[proposal-response] ${message}`, details);
 }
 
+function logInfo(message, details = {}) {
+  console.info(`[proposal-response] ${message}`, details);
+}
+
+async function resendResultDetails(response) {
+  const fallback = { status: response.status };
+  try {
+    const result = await response.json();
+    if (response.ok) {
+      return typeof result?.id === 'string' ? { ...fallback, emailId: result.id } : fallback;
+    }
+
+    // Resend errors are useful for diagnosis, but never log the request payload,
+    // credentials, or recipient address.
+    const error = typeof result?.message === 'string' ? result.message.slice(0, 300) : undefined;
+    return error ? { ...fallback, error } : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 function responseMessage(answer) {
   if (answer === 'yes') {
     return {
@@ -65,9 +86,16 @@ async function sendEmail(answer, timestamp, id) {
       }),
       signal: AbortSignal.timeout(8000)
     });
-    if (!response.ok) logWarning('Email delivery failed', { status: response.status });
-  } catch {
-    logWarning('Email delivery failed');
+    const details = await resendResultDetails(response);
+    if (!response.ok) {
+      logWarning('Email delivery failed', details);
+      return;
+    }
+    logInfo('Email accepted by Resend', details);
+  } catch (error) {
+    logWarning('Email delivery failed', {
+      error: error instanceof Error ? error.name : 'UnknownError'
+    });
   }
 }
 
