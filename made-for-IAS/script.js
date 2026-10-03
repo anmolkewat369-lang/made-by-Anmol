@@ -142,7 +142,20 @@ function openResponse(type){
 }
 function closeResponse(){ responseOverlay.classList.remove('open'); responseOverlay.setAttribute('aria-hidden','true'); }
 responseOverlay.addEventListener('click', e => { if(e.target === responseOverlay) closeResponse(); });
-document.querySelectorAll('.answer').forEach(btn => btn.addEventListener('click', () => openResponse(btn.dataset.answer)));
+function sendResponseNotification(answer){
+  if(answer !== 'yes' && answer !== 'later') return;
+  fetch('/api/response', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({answer})
+  }).catch(() => {});
+}
+document.querySelectorAll('.answer').forEach(btn => btn.addEventListener('click', () => {
+  const answer = btn.dataset.answer;
+  if(answer !== 'yes' && answer !== 'later') return;
+  sendResponseNotification(answer);
+  openResponse(answer);
+}));
 
 // The playful "No" button is intentionally evasive: hover/tap makes it jump
 // to a new safe position instead of opening the no-response. The YES button
@@ -153,18 +166,23 @@ const noTeases = ['No 😈','Too slow 😜','Almost! 😂','Try again 🙈','Nah
 let noMoves = 0;
 function moveNoButton(){
   if(!noButton || !answerBox) return;
-  const box = answerBox.getBoundingClientRect();
-  const button = noButton.getBoundingClientRect();
+
   const pad = 8;
-  const maxX = Math.max(pad, Math.min(window.innerWidth - button.width - pad, box.right - button.width));
+  const viewportWidth = Math.max(window.innerWidth, 320);
+  const viewportHeight = Math.max(window.innerHeight, 480);
+  const button = noButton.getBoundingClientRect();
+  const box = answerBox.getBoundingClientRect();
+
+  const maxX = Math.max(pad, Math.min(viewportWidth - button.width - pad, box.right - button.width));
   const minX = Math.min(Math.max(pad, box.left), maxX);
-  const maxY = Math.max(pad, Math.min(window.innerHeight - button.height - pad, box.bottom - button.height));
+  const maxY = Math.max(pad, Math.min(viewportHeight - button.height - pad, box.bottom - button.height));
   const minY = Math.min(Math.max(pad, box.top), maxY);
   const x = minX + Math.random() * Math.max(0, maxX - minX);
   const y = minY + Math.random() * Math.max(0, maxY - minY);
+
   noButton.style.position = 'fixed';
-  noButton.style.left = `${x}px`;
-  noButton.style.top = `${y}px`;
+  noButton.style.left = `${Math.min(Math.max(x, pad), viewportWidth - button.width - pad)}px`;
+  noButton.style.top = `${Math.min(Math.max(y, pad), viewportHeight - button.height - pad)}px`;
   noButton.style.zIndex = '80';
   noButton.style.transform = `rotate(${(Math.random()*10-5).toFixed(1)}deg) scale(${(0.94+Math.random()*0.12).toFixed(2)})`;
   noButton.textContent = noTeases[noMoves % noTeases.length];
